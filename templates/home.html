@@ -1,0 +1,141 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <title>
+    SpeechAura
+  </title>
+
+  <style>
+    .navbar-brand img {
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    .nav-item a {
+      font-weight: bold;
+      padding: 10px 15px;
+    }
+  </style>
+
+
+</head>
+
+<body style="font-family: Comic sans MS">
+  <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">
+      <img src="{{ url_for('static', filename='logo.png') }}" width="30" height="30" class="d-inline-block align-top"
+        alt="Logo">
+      SpeechAura
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('home')}}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('about') }}">About Me</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('scan') }}">Scan Page</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+
+  <div class="container" style="background-color:darkblue; text-align:center; margin:0; width: 100%; max-width:none">
+    <div class="row">
+      <div class="col-lg-12">
+        <img src="{{ url_for('static', filename='logo.png') }}"></img>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-top: 50;">
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>
+
+        </h3>
+        <p style="text-align:justify">
+
+          Public speaking is an art, rooted in the ability to emotionally connect with an audience. It’s not just about
+          choosing the right words—it’s about delivering them in a way that resonates, leaving a lasting impression. But
+          even seasoned speakers face challenges in balancing content and emotion. How can you ensure your words evoke
+          the right feelings? How do you fine-tune your delivery to inspire, persuade, or truly move your audience?
+          This platform offers an innovative solution. Powered by advanced AI technology, it refines your speeches for
+          maximum emotional impact. Simply upload your written speech, select the emotion or tone you wish to emphasize,
+          and the tool analyzes your content to suggest enhancements that align with the desired emotional depth.
+          Whether you're preparing for a debate, a presentation, or a motivational talk, this platform helps you elevate
+          your communication, ensuring your message resonates deeply.
+          It’s not just about speaking; it’s about being understood, felt, and remembered. With this platform, your
+          words are transformed into a powerful medium that can inspire, persuade, and connect on an unparalleled level.
+          Crafting speeches that touch hearts as well as minds has never been easier or more effective. Let your voice
+          truly shine.
+        </p>
+      </div>
+      <div class="col-lg-6" style="text-align:center; align-self:center">
+        <img src="{{ url_for('static', filename='public-speaking2.jpg') }}"
+          style="object-fit: contain; width: 500px; height: 500px;"></img>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="background-color: skyblue; max-width:none; padding: 50px">
+    <div class="row">
+      <div class="col-lg-6" style="text-align:center; align-self:center">
+        <img src="{{ url_for('static', filename='speak-emotions.png') }}"
+          style="object-fit: contain; width: 500px; height: 500px;"></img>
+      </div>
+      <div class="col-lg-6">
+        <h3>
+
+        </h3>
+        <p style="text-align:justify">
+          Emotion is the heartbeat of public speaking, transforming words into powerful tools that captivate an
+          audience, amplify the message, and leave a lasting impact. When speakers infuse their words with genuine
+          emotion, they bridge the gap between themselves and their listeners, creating a connection that makes their
+          message not only heard but truly felt. Whether it’s the infectious excitement of a motivational talk, the
+          heartfelt empathy of a persuasive argument, or the joyous celebration of a success story, emotions add depth
+          and authenticity that resonate far beyond the moment. Without emotion, even the most carefully crafted
+          speeches risk falling flat, unable to inspire or engage.
+
+          This website empowers speakers to harness the transformative power of emotion in their communication. By
+          simply uploading a speech and selecting the desired emotional tone, users receive tailored feedback designed
+          to align their content with their goals. The platform provides valuable insights into enhancing tone, word
+          choice, and overall delivery, ensuring speeches are dynamic and impactful. It’s not just about saying the
+          right words; it’s about delivering them in a way that moves people. With this tool, speakers can transform
+          their ideas into memorable experiences, making their words relatable, persuasive, and deeply engaging.
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="py-3 my-4" style="background-color: rgb(242, 236, 236); margin:0 !important">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="{{ url_for('home')}}" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="{{ url_for('about')}}" class="nav-link px-2 text-muted">About</a></li>
+      <li class="nav-item"><a href="{{ url_for('scan')}}" class="nav-link px-2 text-muted">Scan</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2024 Company, Inc</p>
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,492 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <title>
+    SpeechAura
+  </title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --overlay-color: rgba(0, 0, 0, .7);
+      --dialog-color: #e9ecef;
+      --dialog-border-radius: 20px;
+      --icon-color: rgba(73, 80, 87, .6);
+      --dialog-padding: 20px;
+      --drag-over-background: #e3e5e8;
+    }
+
+    .file-container {
+      font-family: sans-serif;
+      font-size: 13pt;
+      color: #4d4d4d;
+      padding: 20px;
+    }
+
+    .file-container .file-wrapper {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      margin: auto;
+      background-color: var(--dialog-color);
+      border-radius: var(--dialog-border-radius);
+      padding: var(--dialog-padding);
+      border: 2px dashed var(--icon-color);
+      position: relative;
+    }
+
+    .file-container .file-wrapper .file-input {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      cursor: pointer;
+      opacity: 0;
+    }
+
+    .file-container .file-wrapper .file-input--active+.file-content {
+      background: var(--drag-over-background);
+    }
+
+    .file-container .file-wrapper .file-input--active+.file-content .file-icon {
+      opacity: 0.5;
+    }
+
+    .file-container .file-wrapper .file-input--active+.file-content .file-icon i {
+      animation-name: bounce;
+      animation-duration: 0.6s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease;
+    }
+
+    .file-container .file-wrapper .file-input--active+.file-content .file-icon .icon-shadow {
+      animation-name: shrink;
+      animation-duration: 0.6s;
+      animation-iteration-count: infinite;
+    }
+
+    .file-container .file-wrapper .file-content {
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transition: 0.2s;
+    }
+
+    .file-container .file-wrapper .file-content .file-infos {
+      position: absolute;
+      display: flex;
+      width: 80%;
+      height: 80%;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .file-container .file-wrapper .file-content .file-infos .file-icon {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      color: var(--icon-color);
+      background-color: #f1f1f1;
+      border-radius: var(--dialog-border-radius);
+      padding: var(--dialog-padding);
+      box-shadow: inset 0px 0px 6px 0px #ccc;
+      transition: 0.2s;
+    }
+
+    .file-container .file-wrapper .file-content .file-infos .file-icon i {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .file-container .file-wrapper .file-content .file-infos .file-icon .icon-shadow {
+      position: relative;
+      display: block;
+      width: 95px;
+      height: 7px;
+      border-radius: 100%;
+      background-color: var(--drag-over-background);
+      top: -17px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .file-container .file-wrapper .file-content .file-infos .file-icon>span {
+      position: absolute;
+      bottom: var(--dialog-padding);
+      width: calc(100% - var(--dialog-padding) * 2);
+    }
+
+    .file-container .file-wrapper .file-content .file-infos .file-icon>span span {
+      display: none;
+    }
+
+    .file-container .file-wrapper .file-content .file-infos .file-icon>span .has-drag {
+      display: inline;
+    }
+
+    .file-container .file-wrapper .file-content .file-infos .file-icon i,
+    .file-container .file-wrapper .file-content .file-infos .file-icon span {
+      display: block;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .file-container .file-wrapper .file-content .file-name {
+      position: absolute;
+      width: 100%;
+      text-align: middle;
+      left: 0;
+      bottom: var(--dialog-padding);
+      right: 0;
+      font-weight: bold;
+      font-size: 15pt;
+      margin: auto;
+      text-align: center;
+    }
+
+    .button {
+      border: none;
+      color: blue;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+
+    @keyframes bounce {
+      0% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-15px);
+      }
+
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    @keyframes shrink {
+      0% {
+        width: 95px;
+      }
+
+      50% {
+        width: 75px;
+      }
+
+      100% {
+        width: 95px;
+      }
+    }
+
+    .box {
+      border-radius: 25px;
+      width: 200px;
+      height: 100px;
+      border: 1px solid white;
+      padding: 10px;
+      margin: 10px;
+      place-content: center;
+      text-align: center;
+    }
+
+    .box2 {
+      border-radius: 25px;
+      width: 1000px;
+      border: 1px solid white;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .navbar-brand img {
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    .nav-item a {
+      font-weight: bold;
+      padding: 10px 15px;
+    }
+  </style>
+</head>
+
+<body style="font-family: Comic sans MS">
+  <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">
+      <img src="{{ url_for('static', filename='logo.png') }}" width="30" height="30" class="d-inline-block align-top"
+        alt="Logo">
+      SpeechAura
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('about') }}">About Me</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('scan') }}">Scan Page <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <form id="scan-form" method="POST" enctype="multipart/form-data" action="{{ url_for('process_scan') }}">
+  <div class="file-container">
+    <div class="file-wrapper">
+      <input class="file-input" id="js-file-input" name="audio_file" type="file" accept=".mp3,.wav" />
+      <div class="file-content">
+        <div class="file-infos">
+          <p class="file-icon"><i class="fas fa-file-upload fa-7x"></i><span class="icon-shadow"></span><span>Click to
+              browse<span class="has-drag"> or drop file here</span></span></p>
+        </div>
+        <p class="file-name" id="js-file-name">No file selected</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-3">
+    <div class="dropdown">
+      <button type="button" id="speech-dropdown" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+        Speech Language
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#" onclick="changeSpeechText('English')">English</a>
+        <a class="dropdown-item" href="#" onclick="changeSpeechText('Hindi')">Hindi</a>
+      </div>
+    </div>
+  </div>
+
+  <input type="hidden" id="speech-input" name="speech" value="Speech Language">
+
+  <div class="text-center mt-3">
+    <div class="dropdown">
+      <button type="button" id="emotion-dropdown" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+        Intended Emotion
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#" onclick="changeDropdownText('Happy')">Happy</a>
+        <a class="dropdown-item" href="#" onclick="changeDropdownText('Sad')">Sad</a>
+        <a class="dropdown-item" href="#" onclick="changeDropdownText('Angry')">Angry</a>
+        <a class="dropdown-item" href="#" onclick="changeDropdownText('Neutral')">Neutral</a>
+      </div>
+    </div>
+  </div>
+
+  <input type="hidden" id="emotion-input" name="emotion" value="Intended Emotion">
+
+  <div class="text-center mt-3">
+    <button type="submit" class="btn btn-primary" id="submit-button" onclick="updateEmotionBox()">Submit</button>
+  </div>
+</form>
+
+  <div class="container"
+    style="background-color: darkblue; max-width:none !important; padding:2px; margin-top:50; padding-bottom:40px">
+    <div class="text-center mt-3">
+      <h1 style="margin-top:50; color:white;">Result</h3>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6" style="justify-items:center">
+          <div class="box" id="emotion-box" style="color:white; background-color: #17a2b8;">
+            {% if emotion %}
+            {{emotion}}
+            {% else %}
+              Intended Emotion
+                {% endif %}
+
+            
+          </div>
+        </div>
+
+        <div class="col-lg-6" style="justify-items:center">
+          <div class="box" style="color:white; background-color: blueviolet;">
+            {% if prediction %}
+            {{prediction}}
+            {% else %}
+              Detected Emotion
+                {% endif %}
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12" style="justify-items:center">
+          <div class="box2" style="text-align:justify; color:white; padding:20px">
+            {% if emotion=="Happy" %}
+            To convey happiness in your speech, focus on using an upbeat tone and positive language. Speak with energy and enthusiasm, 
+            emphasizing key words that evoke joy or excitement. Incorporate uplifting imagery and anecdotes that resonate with your 
+            audience. Smiling while you speak naturally brightens your voice and makes your words sound more engaging. Use a quicker 
+            pace, but avoid rushing, as this can dilute the emotional impact. Additionally, vary your pitch to add a musical quality 
+            to your delivery, emphasizing higher tones to reflect cheerfulness. Include affirming phrases such as “This is incredible” 
+            or “We’re so fortunate,” and maintain eye contact to create a warm connection. Happy speeches also benefit from inclusive 
+            language that draws the audience into your positivity, like “We’ve all experienced moments of pure delight.” Ending with an 
+            inspiring call to action or gratitude reinforces the cheerful tone and leaves a lasting impression.
+            {% endif %}
+
+            {% if emotion=="Sad" %}
+            To make your speech sound sad, focus on a softer, slower delivery with a lower pitch to reflect somberness. Use poignant 
+            language that evokes empathy and vulnerability, such as “heartbreaking,” “loss,” or “painful.” Pauses are powerful tools to 
+            let emotions settle and emphasize the weight of your words. Speak in a reflective tone, and let your voice tremble slightly 
+            to convey genuine emotion. Share personal or relatable stories that allow your audience to connect emotionally. Avoid 
+            dramatic overtones, as authenticity is key to moving your listeners. Use metaphors and imagery that evoke melancholy, 
+            such as “a clouded sky” or “the echo of silence.” Dropping the volume at the end of sentences creates a sense of finality
+            and loss. Additionally, avoid forced smiles or upbeat gestures, as these can dilute the emotional resonance. Conclude with
+            a message of reflection or hope to provide solace amidst sadness.
+            {% endif %}
+
+            {% if emotion=="Angry" %}
+            To sound angry in your speech, adopt a firm, forceful tone with sharper enunciation. Use a steady, deliberate pace, 
+            occasionally quickening to reflect rising passion. Emphasize powerful, emotive words such as “outrageous,” “unacceptable,” 
+            or “injustice” to convey indignation. Adjust your pitch to rise during moments of intense emotion, and lower it for stern 
+            emphasis. Utilize rhetorical questions like “How could this happen?” to challenge your audience and provoke thought. Avoid 
+            monotony by varying your volume and stressing key phrases. Facial expressions and gestures should align with your words, 
+            displaying tension or frustration to reinforce your tone. Engage in purposeful repetition to underline critical points, 
+            e.g., “This is not right—this cannot stand.” While anger can be impactful, avoid hostility or yelling, as it may alienate 
+            listeners. Conclude with a decisive call to action, channeling anger into a constructive resolution.
+            {% endif %}
+
+            {% if emotion=="Neutral" %}
+            To achieve a neutral tone, balance your speech with a steady, measured delivery. 
+            Speak at a moderate pace with even volume and pitch, avoiding extremes in either direction. Use language that is factual and 
+            objective, steering clear of overly emotional or charged words. Incorporate transitional phrases like “On the one hand” and 
+            “On the other hand” to maintain an impartial perspective. Your tone should be calm and composed, fostering trust and 
+            professionalism. Body language is equally important—keep gestures minimal and expressions controlled to avoid signaling bias. 
+            Structure your speech to present balanced viewpoints, using evidence and logic to support your statements. Neutrality doesn’t 
+            mean monotony; vary your cadence slightly to retain listener engagement without tipping into emotional territory. End with an 
+            open-ended or thought-provoking statement, encouraging the audience to reflect and form their own opinions while respecting 
+            the balanced tone of your delivery.
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <footer class="py-3 my-4" style="background-color: rgb(242, 236, 236); margin:0 !important">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="{{ url_for('home')}}" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="{{ url_for('about')}}" class="nav-link px-2 text-muted">About</a></li>
+      <li class="nav-item"><a href="{{ url_for('scan')}}" class="nav-link px-2 text-muted">Scan</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2024 Company, Inc</p>
+  </footer>
+
+
+  <script>
+
+    function changeDropdownText(selectedEmotion) {
+      document.getElementById('emotion-dropdown').innerText = selectedEmotion;
+      document.getElementById('emotion-input').value = selectedEmotion;
+    }
+
+    function changeSpeechText(selectedSpeech) {
+      document.getElementById('speech-dropdown').innerText = selectedSpeech;
+      document.getElementById('speech-input').value = selectedSpeech;
+    }
+
+    function updateEmotionBox() {
+      var selectedEmotion = document.getElementById('emotion-dropdown').innerText;
+      document.getElementById('emotion-box').innerText = selectedEmotion;
+    }
+
+
+    (function () {
+      window.supportDrag = (function () {
+        let div = document.createElement("div");
+        return (
+          ("draggable" in div || ("ondragstart" in div && "ondrop" in div)) &&
+          "FormData" in window &&
+          "FileReader" in window
+        );
+      })();
+
+      let input = document.getElementById("js-file-input");
+      let sb = document.getElementById("submit-button")
+
+      if (!supportDrag) {
+        document.querySelectorAll(".has-drag")[0].classList.remove("has-drag");
+      }
+
+      input.addEventListener(
+        "change",
+        function (e) {
+          document.getElementById("js-file-name").innerHTML = this.files[0].name;
+          document
+            .querySelectorAll(".file-input")[0]
+            .classList.remove("file-input--active");
+        },
+        false
+      );
+
+      sb.addEventListener("click", function (e) {
+
+      })
+
+      if (supportDrag) {
+        input.addEventListener("dragenter", function (e) {
+          document
+            .querySelectorAll(".file-input")[0]
+            .classList.add("file-input--active");
+        });
+
+        input.addEventListener("dragleave", function (e) {
+          document
+            .querySelectorAll(".file-input")[0]
+            .classList.remove("file-input--active");
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>

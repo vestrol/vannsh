@@ -1,0 +1,141 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <title>
+    SpeechAura
+  </title>
+
+  <style>
+    .navbar-brand img {
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    .nav-item a {
+      font-weight: bold;
+      padding: 10px 15px;
+    }
+  </style>
+</head>
+
+<body style="font-family: Comic sans MS">
+  <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">
+      <img src="{{ url_for('static', filename='logo.png') }}" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+      SpeechAura
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('about') }}">About Me <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('scan') }}">Scan Page</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container" style="background-color: skyblue; max-width:none !important; padding:50">
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>
+          About Me
+        </h3>
+        <p style="text-align:justify">
+          Hi, I'm Vannsh Jagtiani, a student of 11-S at The Shri Ram School, Moulsari. I am a curious and passionate
+          learner with a love for problem-solving and an innate desire to make a difference in the world. As someone
+          with strong academic capabilities and a knack for public speaking, I’ve participated and won awards in several
+          Model United Nations (MUNs) and debate competitions. However, my true passion lies in bridging communication
+          gaps for individuals who face challenges in expressing themselves, especially those who are neurodivergent or
+          struggle with speech and hearing disabilities.
+          Previously, I created Awaaz Mitr, an app that helps neurodivergent students learn Hindi, inspired by the
+          struggles I witnessed in those around me. Now, I am working on my latest innovation: a website powered by a
+          Language Learning Model (LLM) to aid public speakers in refining their speeches by integrating emotions and
+          expression into their content.
+        </p>
+      </div>
+      <div class="col-lg-6" style="text-align:center; align-self:center">
+        <img src="{{ url_for('static', filename='about-me-image.jpg') }}" style="width: 300;">
+      </div>
+    </div>
+    </div>
+
+    <div class="container" style="margin-top: 50;">
+    <div class="row">
+      <div class="col-lg-6" style="text-align:center; align-self:center">
+        <img src="{{ url_for('static', filename='public_speaking.webp') }}" style="width: -webkit-fill-available;">
+      </div>
+      <div class="col-lg-6" style="text-align:center; align-self:center ">
+        <h3>
+          What Problem Does This Website Solve?
+        </h3>
+        <p style="text-align:justify">
+          Public speaking is more than just delivering words—it is about conveying emotion, passion, and authenticity.
+          Many speakers, whether beginners or experienced, find it difficult to imbue their speeches with the right
+          tone, emotional depth, and expressions that connect with their audience. Often, they struggle to assess how
+          their content is perceived emotionally, which can make even a well-written speech feel flat or disconnected.
+          This website solves that problem. By uploading your speech and selecting an emotional toggle, the app uses
+          advanced LLM technology to analyze your content and provide feedback on how to enhance it with the appropriate
+          emotions. Whether you're trying to inspire, persuade, or connect emotionally with your audience, the app gives
+          you suggestions on the tone and writing style adjustments to help you deliver a powerful and memorable speech.
+        </p>
+      </div>
+    </div>
+    </div>
+
+    <div class="container" style="margin-top: 50; background-color: skyblue; max-width: none !important; padding:50">
+    <div class="row">
+      <div class="col-lg-12">
+        <h3>
+          My Motivation
+        </h3>
+        <p style="text-align:justify">
+          Seeing individuals, especially neurodivergent students, face challenges in communication deeply moved me. I
+          realized that the ability to communicate effectively is a privilege, and I wanted to extend that to more
+          people.
+          I began with Awaaz Mitr, a project close to my heart, and it motivated me to further explore how technology
+          could assist in enhancing communication in different ways.
+          As a public speaker myself, I know firsthand how critical it is to connect emotionally with your audience. I
+          created this LLM-powered website to provide an accessible tool for public speakers of all kinds to master
+          not
+          just the content of their speeches but also the emotional impact they have on their listeners. This project
+          is
+          my way of ensuring that everyone can speak not just with words, but with emotions that truly resonate.
+        </p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+  <footer class="py-3 my-4" style="background-color: rgb(242, 236, 236); margin:0 !important">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="{{ url_for('home')}}" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="{{ url_for('about')}}" class="nav-link px-2 text-muted">About</a></li>
+      <li class="nav-item"><a href="{{ url_for('scan')}}" class="nav-link px-2 text-muted">Scan</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2024 Company, Inc</p>
+  </footer>
+</body>
+
+</html>
