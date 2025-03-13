@@ -1,7 +1,0 @@
-librosa
-numpy
-opencv-python
-onnxruntime
-joblib
-werkzeug
-flask
